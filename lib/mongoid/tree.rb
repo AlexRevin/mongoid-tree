@@ -273,17 +273,21 @@ module Mongoid
     ##
     # Returns a chainable criteria for this document's ancestors
     #
+    # @param [Symbol] direction order
+    #
     # @return [Mongoid::Criteria] Mongoid criteria to retrieve the documents ancestors
-    def ancestors
-      base_class.where(:_id.in => parent_ids).order(:depth => :asc)
+    def ancestors direction=:asc
+      base_class.where(:_id.in => parent_ids).order(:depth => direction)
     end
 
     ##
     # Returns an array of this document's ancestors and itself
     #
+    # @param [Symbol] direction order
+    #
     # @return [Array<Mongoid::Document>] Array of the document's ancestors and itself
-    def ancestors_and_self
-      ancestors + [self]
+    def ancestors_and_self direction=:asc
+      ancestors(direction) + [self]
     end
 
     ##
